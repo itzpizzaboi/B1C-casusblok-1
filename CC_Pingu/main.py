@@ -39,8 +39,8 @@ robotBase = DriveBase(leftMotor, rightMotor, 45, 1300)
 
 # Initialize main
 def main():
-    # functions.lineFollow(robotBase, colorGround)
-    functions.robotRotate(gyro, leftMotor, rightMotor)
+    functions.lineFollow(robotBase, colorGround)
+    # functions.robotRotate(gyro, leftMotor, rightMotor)
     
 
 # Run main

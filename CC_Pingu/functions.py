@@ -13,18 +13,19 @@ def robotRotate(gyro, left_motor, right_motor):
     correctionRotationSpeed = 2000
     correctionBufferSpeed = 150
     rotationBuffer = 5
+    angle_Rotate = 180
 
     while True:
-        if gyro.angle() < 90 and 90 - gyro.angle() > rotationBuffer:
+        if gyro.angle() < angle_Rotate and angle_Rotate - gyro.angle() > rotationBuffer:
             left_motor.run(correctionRotationSpeed)
             right_motor.run(correctionRotationSpeed*-1)
-        elif gyro.angle() > 90 and gyro.angle() - 90 > rotationBuffer:
+        elif gyro.angle() > angle_Rotate and gyro.angle() - angle_Rotate > rotationBuffer:
             left_motor.run(correctionRotationSpeed*-1)
             right_motor.run(correctionRotationSpeed)
-        elif gyro.angle() < 90 and 90 - gyro.angle() < rotationBuffer:
+        elif gyro.angle() < angle_Rotate and angle_Rotate - gyro.angle() < rotationBuffer:
             left_motor.run(correctionBufferSpeed)
             right_motor.run(correctionBufferSpeed*-1)
-        elif gyro.angle() > 90 and gyro.angle() - 90 < rotationBuffer:
+        elif gyro.angle() > angle_Rotate and gyro.angle() - angle_Rotate < rotationBuffer:
             left_motor.run(correctionBufferSpeed*-1)
             right_motor.run(correctionBufferSpeed)
         else:
