@@ -43,7 +43,7 @@ def main():
 
         if colorGround.color() == Color.BLACK:
             robotBase.straight(-110)
-            functions.rotationByLine(colorGround, robotBase, 30, 1, Color)
+            functions.rotationByLine(colorGround, robotBase, 30, -1, Color)
 
 # Run main2
 main()
