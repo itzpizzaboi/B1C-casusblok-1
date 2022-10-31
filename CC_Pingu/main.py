@@ -34,10 +34,7 @@ gyro.reset_angle(0)
 
 # Initialize main
 def main():
-    station = 0
     while True:
-
-        robotBase.drive(100,0)
         functions.lineFollow(robotBase, colorGround)
         
         if colorGround.color() == Color.GREEN:
