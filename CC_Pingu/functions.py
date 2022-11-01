@@ -37,3 +37,19 @@ def rotationByLine(colorGround, robotBase, speed, rotationTarget, Color):
             robotBase.drive(0, -speed)
             if colorGround.color() == Color.BLUE:
                 break
+
+def stationCounter(colorFront, robotBase, gyro, armMotor, stationCount):
+    
+    stations = {
+        0 : None,
+        1 : Color.GREEN,
+        2 : Color.RED,
+        3 : Color.BLUE
+    }
+
+    if stationCount == 0:
+        print("Home")
+    
+    elif stationCount >= 1:
+        print(f"Station {stations[stationCount]}")
+    

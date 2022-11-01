@@ -13,9 +13,6 @@ import functions
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
 
-# linecolors zijn:
-
-
 # Define the Items
 leftMotor = Motor(Port.A)
 rightMotor = Motor(Port.B)
@@ -32,8 +29,12 @@ ev3 = EV3Brick()
 robotBase = DriveBase(leftMotor, rightMotor, 55.5, 104)
 gyro.reset_angle(0)
 
+
 # Initialize main
 def main():
+
+    stationCount = 0
+
     while True:
         functions.lineFollow(robotBase, colorGround)
         
@@ -44,6 +45,10 @@ def main():
         if colorGround.color() == Color.BLACK:
             robotBase.straight(-110)
             functions.rotationByLine(colorGround, robotBase, 30, -1, Color)
+
+        if colorGround.color() == Color.RED:
+            functions.stationCounter(colorFront, robotBase, gyro, armMotor, stationCount)
+            stationCount += 1
 
 # Run main2
 main()
