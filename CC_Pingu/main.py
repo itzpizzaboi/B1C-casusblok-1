@@ -19,8 +19,8 @@ leftMotor = Motor(Port.A)
 rightMotor = Motor(Port.B)
 armMotor = Motor(Port.C)
 gyro = GyroSensor(Port.S1)
-colorGround = ColorSensor2(Port.S2)
-colorFront = ColorSensor1(Port.S3)
+colorGround = ColorSensor2(Port.S3)
+colorFront = ColorSensor1(Port.S2)
 distanceSensor = UltrasonicSensor(Port.S4)
 
 # Create your objects here.
@@ -30,53 +30,48 @@ ev3 = EV3Brick()
 robotBase = DriveBase(leftMotor, rightMotor, 55.5, 105)
 gyro.reset_angle(0)
 
+# Initialize global variables
+
 
 # Initialize main
 def main():
+   
 
+    # Initialize global variables
     stationCount = 0
-    holding = True
+    holding = False
+    holdingColor = None
+
+    stations = {
+        0 : None,
+        1 : Color.GREEN,
+        2 : Color.RED,
+        # 3 : Color.BLUE
+    }
 
     while True:
-        print(colorFront.color())
         functions.lineFollow(robotBase, colorGround)
-        
+        print(stationCount)
         if colorGround.color() == Color.GREEN:
-            robotBase.straight(-110)
+            robotBase.straight(-130)
             functions.rotationByLine(colorGround, robotBase, 30, 1, Color)
             robotBase.drive(0, 12)
             sleep(0.9)
 
         if colorGround.color() == Color.BLACK:
-            robotBase.straight(-110)
+            robotBase.straight(-100)
             functions.rotationByLine(colorGround, robotBase, 30, -1, Color)
             robotBase.drive(0, 12)
             sleep(0.9)
-        
-        if colorGround.color() == Color.RED:
-            robotBase.drive(0,0)
-            robotBase.straight(-110)
-            functions.robotRotate(gyro, robotBase, 30, -90)
-            robotBase.straight(-100)
-
-            if holding == True:
-                holding = False
-                armMotor.run_time(-200, 5000, wait=True)
-            
-            elif holding == False:
-                holding = True
-                armMotor.run_time(200, 5000, wait=True)
-            
-            robotBase.straight(100)
-            functions.robotRotate(gyro, robotBase, 30, 90)
 
         if colorGround.color() == Color.RED:
-            functions.stationCounter(colorFront, robotBase, gyro, armMotor, stationCount)
+            functions.stationCounter(colorFront, robotBase, gyro, armMotor,
+                                        stationCount, holding, holdingColor,
+                                        stations, distanceSensor, Color)
             stationCount += 1
+            if stationCount >= len(stations):
+                stationCount = 0
 
-        if colorGround.color() == Color.RED:
-            functions.stationCounter(colorFront, robotBase, gyro, armMotor, stationCount)
-            stationCount += 1
 
 # Run main2
 main()
