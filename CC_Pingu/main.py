@@ -22,8 +22,8 @@ leftMotor = Motor(Port.A)
 rightMotor = Motor(Port.B)
 armMotor = Motor(Port.C)
 gyro = GyroSensor(Port.S1)
-colorGround = ColorSensor2(Port.S2)
-colorFront = ColorSensor1(Port.S3)
+colorGround = ColorSensor2(Port.S3)
+colorFront = ColorSensor1(Port.S2)
 distanceSensor = UltrasonicSensor(Port.S4)
 
 # Create your objects here.
@@ -38,7 +38,7 @@ def main():
     
     holding = True
     while True:
-        print(colorFront.color())
+        
         functions.lineFollow(robotBase, colorGround)
         
         if colorGround.color() == Color.GREEN:
@@ -46,29 +46,32 @@ def main():
             functions.rotationByLine(colorGround, robotBase, 30, 1, Color)
             robotBase.drive(0, 12)
             sleep(0.9)
+            robotBase.straight(50)
 
         if colorGround.color() == Color.BLACK:
             robotBase.straight(-110)
             functions.rotationByLine(colorGround, robotBase, 30, -1, Color)
             robotBase.drive(0, 12)
             sleep(0.9)
+            robotBase.straight(50)
         
         if colorGround.color() == Color.RED:
             robotBase.drive(0,0)
             robotBase.straight(-110)
             functions.robotRotate(gyro, robotBase, 30, -90)
-            robotBase.straight(-100)
+            robotBase.straight(-60)
 
             if holding == True:
                 holding = False
-                armMotor.run_time(-200, 5000, wait=True)
+                armMotor.run_time(-200, 5500, wait=True)
             
             elif holding == False:
                 holding = True
-                armMotor.run_time(200, 5000, wait=True)
+                armMotor.run_time(200, 5500, wait=True)
             
-            robotBase.straight(100)
+            robotBase.straight(60)
             functions.robotRotate(gyro, robotBase, 30, 90)
+            robotBase.straight(50)
 
 # Run main2
 main()

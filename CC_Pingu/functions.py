@@ -1,7 +1,7 @@
 from time import sleep
 
 def lineFollow(robot, colorGround):
-    speed = -100
+    speed = -50
     rotationSpeed = -1
     percentageStraight = 50
 
