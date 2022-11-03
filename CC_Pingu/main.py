@@ -33,7 +33,7 @@ gyro.reset_angle(0)
 # Initialize main
 def main():
    
-    # Initialize global variables
+    # Initialize variables
     stationCount = 0
     holding = False
     holdingColor = ""
@@ -69,7 +69,7 @@ def main():
             sleep(0.9)
             robotBase.straight(30)
 
-        # Functie Station uitvoeren
+        # Functie Station
         if colorGround.color() == Color.RED:
             returnList = functions.stationCounter(colorFront, robotBase, gyro, armMotor,
                                         stationCount, holding, holdingColor, stations, distanceSensor, Color)
@@ -81,7 +81,5 @@ def main():
             if stationCount >= len(stations):
                 stationCount = 0
             
-
-
-# Run main
+# Run main2
 main()

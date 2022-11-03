@@ -11,12 +11,11 @@ def lineFollow(robot, colorGround):
 
 def robotRotate(gyro, robotBase, speed, rotationTarget):
     # Draai de gegeven hoeveelheid graden in de aangegeven richting    
-    newRotationTarget = gyro.angle()
     gyro.reset_angle(0)
 
     if rotationTarget < 0:
         while gyro.angle() > rotationTarget:
-           robotBase.drive(0, speed)
+            robotBase.drive(0, speed)
 
     elif rotationTarget > 0:
         while gyro.angle() < rotationTarget:
@@ -49,21 +48,22 @@ def stationCounter(colorFront, robotBase, gyro, armMotor,
             robotRotate(gyro, robotBase, 30, -90)
 
             # Checken aanwezigheid van item
-            while distanceSensor.distance() >= 200:
+            while distanceSensor.distance() >= 400:
                 pass
 
             # Pakken van item
             robotBase.reset()
-            while distanceSensor.distance() >= 50:
+            while distanceSensor.distance() >= 35:
                 robotBase.drive(-15, 0)
                 tempcolor = colorFront.color()
                 if tempcolor != None and tempcolor != Color.YELLOW and tempcolor != Color.WHITE:
                     holdingColor = tempcolor
+                    print(holdingColor)
             
             # Terug draaien
-            robotBase.straight(-30)
+            robotBase.straight(-25)
             robotBase.drive(0, 0)
-            armMotor.run_until_stalled(200, duty_limit=90)
+            armMotor.run_until_stalled(200, duty_limit=120)
             robotBase.straight(robotBase.distance() * -1)
             robotRotate(gyro, robotBase, 30, 90)
 
@@ -95,4 +95,3 @@ def stationCounter(colorFront, robotBase, gyro, armMotor,
     
     returnList = [holding, holdingColor]
     return returnList
-
