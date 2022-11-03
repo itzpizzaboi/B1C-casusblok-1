@@ -36,41 +36,52 @@ gyro.reset_angle(0)
 # Initialize main
 def main():
    
-
     # Initialize global variables
     stationCount = 0
     holding = False
-    holdingColor = None
+    holdingColor = "Dit is een string"
+    returnList = []
 
     stations = {
         0 : None,
         1 : Color.GREEN,
         2 : Color.RED,
-        # 3 : Color.BLUE
+        3 : Color.BLUE
     }
+
+    armMotor.run_until_stalled(-200, duty_limit=90)
 
     while True:
         functions.lineFollow(robotBase, colorGround)
-        print(stationCount)
+
+        # print(stationCount)
+        print(returnList)
+
         if colorGround.color() == Color.GREEN:
             robotBase.straight(-130)
             functions.rotationByLine(colorGround, robotBase, 30, 1, Color)
             robotBase.drive(0, 12)
             sleep(0.9)
+            robotBase.straight(30)
 
         if colorGround.color() == Color.BLACK:
             robotBase.straight(-100)
             functions.rotationByLine(colorGround, robotBase, 30, -1, Color)
             robotBase.drive(0, 12)
             sleep(0.9)
+            robotBase.straight(30)
 
         if colorGround.color() == Color.RED:
-            functions.stationCounter(colorFront, robotBase, gyro, armMotor,
-                                        stationCount, holding, holdingColor,
-                                        stations, distanceSensor, Color)
+            returnList = functions.stationCounter(colorFront, robotBase, gyro, armMotor,
+                                        stationCount, holding, holdingColor, stations, distanceSensor, Color)
+            
+            holding = returnList[0]
+            holdingColor = returnList[1]
+
             stationCount += 1
             if stationCount >= len(stations):
                 stationCount = 0
+            
 
 
 # Run main2

@@ -37,8 +37,8 @@ def rotationByLine(colorGround, robotBase, speed, rotationTarget, Color):
                 break
 
 def stationCounter(colorFront, robotBase, gyro, armMotor,
-                    stationCount, holding, holdingColor,
-                    stations, distanceSensor, Color):
+                    stationCount, holding, holdingColor, stations, distanceSensor, Color):
+    
     
     if stationCount == 0:
         if holding == False:
@@ -69,18 +69,21 @@ def stationCounter(colorFront, robotBase, gyro, armMotor,
             robotBase.straight(robotBase.distance() * -1)
             robotRotate(gyro, robotBase, 30, 90)
 
-            holding == True
+            
+            holding = True
 
         else:
             robotBase.straight(-20)
 
     elif stationCount >= 1:
-        if holding == True and stations[stationCount] == holdingColor: #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! HIER ZIT DE FOUT
+        # print(holdingColor)
+        # print(stations[stationCount])
+        if holding == True and stations[stationCount] == holdingColor: #! HIER ZIT DE FOUT
             robotBase.drive(0,0)
             robotBase.straight(-110)
             robotRotate(gyro, robotBase, 30, -90)
             # robotBase.settings(25, 100, 90, 180)
-            # robotBase.straight(-60)
+            robotBase.straight(-60)
             # robotBase.settings(100, 200, 90, 180)
 
             armMotor.run_until_stalled(-200, duty_limit=90)
@@ -91,4 +94,7 @@ def stationCounter(colorFront, robotBase, gyro, armMotor,
             robotBase.straight(50)
         else:
             robotBase.straight(-20)
+    
+    returnList = [holding, holdingColor]
+    return returnList
 
