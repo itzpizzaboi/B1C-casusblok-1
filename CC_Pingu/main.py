@@ -14,9 +14,6 @@ from time import sleep
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
 
-# linecolors zijn:
-
-
 # Define the Items
 leftMotor = Motor(Port.A)
 rightMotor = Motor(Port.B)
@@ -33,45 +30,59 @@ ev3 = EV3Brick()
 robotBase = DriveBase(leftMotor, rightMotor, 55.5, 105)
 gyro.reset_angle(0)
 
+# Initialize global variables
+
+
 # Initialize main
 def main():
-    
-    holding = True
+   
+    # Initialize global variables
+    stationCount = 0
+    holding = False
+    holdingColor = "Dit is een string"
+    returnList = []
+
+    stations = {
+        0 : None,
+        1 : Color.GREEN,
+        2 : Color.RED,
+        3 : Color.BLUE
+    }
+
+    armMotor.run_until_stalled(-200, duty_limit=90)
+
     while True:
-        
         functions.lineFollow(robotBase, colorGround)
-        
+
+        # print(stationCount)
+        print(returnList)
+
         if colorGround.color() == Color.GREEN:
-            robotBase.straight(-110)
+            robotBase.straight(-130)
             functions.rotationByLine(colorGround, robotBase, 30, 1, Color)
             robotBase.drive(0, 12)
             sleep(0.9)
-            robotBase.straight(50)
+            robotBase.straight(30)
 
         if colorGround.color() == Color.BLACK:
-            robotBase.straight(-110)
+            robotBase.straight(-100)
             functions.rotationByLine(colorGround, robotBase, 30, -1, Color)
             robotBase.drive(0, 12)
             sleep(0.9)
-            robotBase.straight(50)
-        
-        if colorGround.color() == Color.RED:
-            robotBase.drive(0,0)
-            robotBase.straight(-110)
-            functions.robotRotate(gyro, robotBase, 30, -90)
-            robotBase.straight(-60)
+            robotBase.straight(30)
 
-            if holding == True:
-                holding = False
-                armMotor.run_time(-200, 5500, wait=True)
+        if colorGround.color() == Color.RED:
+            returnList = functions.stationCounter(colorFront, robotBase, gyro, armMotor,
+                                        stationCount, holding, holdingColor, stations, distanceSensor, Color)
             
-            elif holding == False:
-                holding = True
-                armMotor.run_time(200, 5500, wait=True)
+            holding = returnList[0]
+            holdingColor = returnList[1]
+
+            stationCount += 1
+            if stationCount >= len(stations):
+                stationCount = 0
             
-            robotBase.straight(60)
-            functions.robotRotate(gyro, robotBase, 30, 90)
-            robotBase.straight(50)
+
 
 # Run main2
 main()
