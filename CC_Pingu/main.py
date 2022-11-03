@@ -30,16 +30,13 @@ ev3 = EV3Brick()
 robotBase = DriveBase(leftMotor, rightMotor, 55.5, 105)
 gyro.reset_angle(0)
 
-# Initialize global variables
-
-
 # Initialize main
 def main():
    
     # Initialize global variables
     stationCount = 0
     holding = False
-    holdingColor = "Dit is een string"
+    holdingColor = ""
     returnList = []
 
     stations = {
@@ -49,14 +46,14 @@ def main():
         3 : Color.BLUE
     }
 
+    # Maak de arm van de robot open voor het begin
     armMotor.run_until_stalled(-200, duty_limit=90)
 
     while True:
+        # Functie lijn volgen
         functions.lineFollow(robotBase, colorGround)
 
-        # print(stationCount)
-        print(returnList)
-
+        # Rechts afslaan bij het zien van Groen
         if colorGround.color() == Color.GREEN:
             robotBase.straight(-130)
             functions.rotationByLine(colorGround, robotBase, 30, 1, Color)
@@ -64,6 +61,7 @@ def main():
             sleep(0.9)
             robotBase.straight(30)
 
+        # Links afslaan bij het zien van Zwart
         if colorGround.color() == Color.BLACK:
             robotBase.straight(-100)
             functions.rotationByLine(colorGround, robotBase, 30, -1, Color)
@@ -71,6 +69,7 @@ def main():
             sleep(0.9)
             robotBase.straight(30)
 
+        # Functie Station uitvoeren
         if colorGround.color() == Color.RED:
             returnList = functions.stationCounter(colorFront, robotBase, gyro, armMotor,
                                         stationCount, holding, holdingColor, stations, distanceSensor, Color)
@@ -84,5 +83,5 @@ def main():
             
 
 
-# Run main2
+# Run main
 main()
